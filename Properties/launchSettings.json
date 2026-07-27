@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "ValenceWinUI (Packaged)": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": false
+    },
+    "ValenceWinUI (Unpackaged)": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

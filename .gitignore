@@ -1,0 +1,36 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.DotSettings
+*.csproj.user
+
+## VS Code (keep debug configs)
+.vscode/settings.json
+
+## Visual Studio
+.vs/
+
+## Windows App SDK / WinUI
+*.appx
+*.appxbundle
+*.appxupload
+*.msix
+*.msixbundle
+*.msixupload
+
+## NuGet
+*.nupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+## OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Publish
+publish/
