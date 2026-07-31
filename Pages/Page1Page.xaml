@@ -4,14 +4,65 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ValenceWinUI.Pages"
+    xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16">
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="页面 1" />
-            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="这是占位页面，内容待添加。" />
+    <Page.Resources>
+        <Style x:Key="FeatureCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="12" />
+        </Style>
+    </Page.Resources>
+
+    <Grid x:Name="RootLayout" Padding="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- 顶部工具栏 -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="12" Margin="0,0,0,12">
+            <Button x:Name="SchemeButton" Click="SchemeButton_Click" MinWidth="140">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <FontIcon Glyph="&#xE8CB;" FontSize="14" />
+                    <TextBlock x:Name="SchemeButtonLabel" Text="选择方案" />
+                </StackPanel>
+            </Button>
+            <TextBlock x:Name="CurrentSchemeText"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="未选择方案"
+                       MaxLines="1"
+                       TextTrimming="CharacterEllipsis" />
         </StackPanel>
+
+        <!-- 主体：左右布局 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="360" />
+            </Grid.ColumnDefinitions>
+
+            <!-- 折线图 -->
+            <lvc:CartesianChart
+                x:Name="DrugChart"
+                Grid.Column="0"
+                ZoomMode="X"
+                TooltipPosition="Top"
+                LegendPosition="Bottom">
+            </lvc:CartesianChart>
+
+            <!-- 特征面板 -->
+            <ScrollViewer x:Name="FeatureScroll" Grid.Column="1"
+                          VerticalScrollBarVisibility="Auto"
+                          Padding="12,0,0,0">
+                <StackPanel x:Name="FeaturePanel" Spacing="8" />
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Page>

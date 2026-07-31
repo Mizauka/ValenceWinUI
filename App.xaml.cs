@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml;
+﻿using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using Microsoft.UI.Xaml;
 using System;
 using System.IO;
 using ValenceWinUI.Helpers;

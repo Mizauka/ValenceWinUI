@@ -15,12 +15,6 @@ public sealed partial class MainWindow : Window
     private bool _isSyncingSelection;
     private string? _currentPageKey;
 
-    // 侧边栏页面顺序（决定 forward/backward 方向）
-    private static readonly List<string> _pageOrder = new()
-    {
-        "Page1", "Page2", "Page3", "Page4", "Settings"
-    };
-
     private readonly Dictionary<string, Type> _pageMap = new()
     {
         ["Page1"] = typeof(Page1Page),
@@ -85,9 +79,7 @@ public sealed partial class MainWindow : Window
     }
 
     /// <summary>
-    /// 根据侧边栏位置决定 forward/backward 动画方向。
-    /// 两类场景都用 EntranceNavigationTransitionInfo 保证有动画；
-    /// 区别在于 backward 若目标页在回退栈中则走 GoBack（反向动画），否则走 Navigate（入场动画）。
+    /// 侧边栏导航统一使用入场动画。返回按钮使用 GoBack 反向动画。
     /// </summary>
     private void NavigateByDirection(string pageKey)
     {
@@ -97,23 +89,8 @@ public sealed partial class MainWindow : Window
         if (ContentFrame.Content?.GetType() == pageType)
             return;
 
-        int currentIdx = _currentPageKey != null ? _pageOrder.IndexOf(_currentPageKey) : -1;
-        int targetIdx = _pageOrder.IndexOf(pageKey);
-        bool isForward = targetIdx > currentIdx;
-        bool isBackStackImmediate = ContentFrame.BackStackDepth > 0
-            && ContentFrame.BackStack[ContentFrame.BackStackDepth - 1].SourcePageType == pageType;
-
-        if (isForward || !isBackStackImmediate)
-        {
-            // forward 或 backward 但无法走 GoBack → 使用入场动画
-            ContentFrame.Navigate(pageType, null, new EntranceNavigationTransitionInfo());
-        }
-        else
-        {
-            // backward 且目标页恰好是回退栈顶部 → GoBack 反向动画
-            ContentFrame.GoBack();
-        }
-
+        // 侧边栏点击统一用入场动画
+        ContentFrame.Navigate(pageType, null, new EntranceNavigationTransitionInfo());
         _currentPageKey = pageKey;
     }
 
